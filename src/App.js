@@ -157,7 +157,7 @@ class App extends React.Component {
 
                         <ul>
                             {this.state.departmentList.map((row,index)=>{
-                                return <li key={index}>{row.user_name}</li>;
+                                return <li key={index}>{row.department_name} {row.user_name}</li>;
                             })}
                         </ul>
                     </div>
