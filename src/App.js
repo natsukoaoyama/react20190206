@@ -137,8 +137,14 @@ class App extends React.Component {
                     <div>
                         <Button variant="raised" color="primary" onClick={this.clickHandler2}>ログインユーザーの情報</Button>
                         <div>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="1">MP事業部</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="2">OS事業部</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="3">UI/UX制作室</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="4">開発</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="5">クリエイティブ</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="6">QAグループ</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="7">経営企画</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="8">ニジボックス</button></p>
                         </div>
 
                         { this.state.user &&
