@@ -1,5 +1,7 @@
 import * as React from 'react';
 import axios, {AxiosInstance, AxiosResponse} from 'axios';
+import ReactDOM from 'react-dom';
+import Button from '@material-ui/core/Button';
 
 
 class App extends React.Component {
@@ -55,7 +57,14 @@ class App extends React.Component {
             })
     }
     loadUser(){
-        return this.httpClient.get('/who/user/1')
+        return this.httpClient.get('/who/user/3')
+            .then(this.commonResponseHandling)
+            .then((result)=>{
+                this.setState({user : result});
+            })
+    }
+    loadloginUser(){
+        return this.httpClient.get('/profile/get')
             .then(this.commonResponseHandling)
             .then((result)=>{
                 this.setState({user : result});
@@ -77,7 +86,12 @@ class App extends React.Component {
                 alert('エラー発生');
             });
     };
-
+    clickHandler2 = ()=>{
+        this.loadloginUser()
+            .catch((err)=>{
+                alert('エラー発生');
+            });
+    };
 
     render() {
         return (
@@ -90,11 +104,12 @@ class App extends React.Component {
 
                 { this.state.isLogin ?
                     <div>
-                        <button onClick={this.clickHandler}>ユーザも取得してみる</button>
+                        <Button variant="raised" color="primary" onClick={this.clickHandler2}>ログインユーザーの情報</Button>
+                        <Button variant="raised" color="primary">検索もしたさがある</Button>
 
                         { this.state.user &&
                         <div>
-                            { this.state.user.user_name }<br />{ this.state.user.description }
+                            { this.state.user.user_code } { this.state.user.user_name }<br />{ this.state.user.description }
                             <img src={this.state.user.main_photo_url} />
                         </div>
                         }
