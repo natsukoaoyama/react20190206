@@ -5,10 +5,17 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+
 
 const styles = theme => ({
     card: {
@@ -23,6 +30,21 @@ const styles = theme => ({
       input: {
         margin: theme.spacing.unit,
     },
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 300,
+      },
+      listSection: {
+        backgroundColor: 'inherit',
+      },
+      ul: {
+        backgroundColor: 'inherit',
+        padding: 0,
+      },
 });
 
 
@@ -89,7 +111,7 @@ class App extends React.Component {
                 console.log(result);
             })
     }
-    loadUser(){
+    loadUser(e){
         return this.httpClient.get('/who/user/3')
             .then(this.commonResponseHandling)
             .then((result)=>{
@@ -131,33 +153,48 @@ class App extends React.Component {
         const classes = this.props.classes;
 
         return (
-            <div>
+            <div className="main">
 
                 { this.state.isLogin ?
                     <div>
-                        <Button variant="raised" color="primary" onClick={this.clickHandler2}>ログインユーザーの情報</Button>
+                        <AppBar position="static" color="default">
+                            <Toolbar>
+                                <Typography variant="title" color="inherit">
+                                NijiboxMembers
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
                         <div>
-                            <p><button onClick={e => this.ClickDp(e)} data-id="1">MP事業部</button></p>
-                            <p><button onClick={e => this.ClickDp(e)} data-id="2">OS事業部</button></p>
-                            <p><button onClick={e => this.ClickDp(e)} data-id="3">UI/UX制作室</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="1">ニジボックス</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="2">MP事業部</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="3">OS事業部</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="4">開発</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="5">クリエイティブ</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="6">QAグループ</button></p>
                             <p><button onClick={e => this.ClickDp(e)} data-id="7">経営企画</button></p>
-                            <p><button onClick={e => this.ClickDp(e)} data-id="8">ニジボックス</button></p>
+                            <p><button onClick={e => this.ClickDp(e)} data-id="8">UI/UX制作室</button></p>
                         </div>
+                        <Button variant="raised" color="primary" onClick={this.clickHandler2}>ログインユーザーの情報</Button>
 
                         { this.state.user &&
                         <Card className={classes.card}>
-                            { this.state.user.user_code } { this.state.user.user_name }<br />{ this.state.user.description }
-                            <img src={this.state.user.main_photo_url} /><br />
-                            <h3>{ this.state.user.department_name } </h3>
-                        </Card>
+                        <CardContent>
+                            <h3>{ this.state.user.user_name }/{ this.state.user.user_kana }</h3>
+                            <img src={this.state.user.main_photo_url} height="160"/><br /> 
+                            { this.state.user.department_name } <br /> 
+                            社員番号：{ this.state.user.user_code }<br /> 
+                            メールアドレス：{ this.state.user.mail }
+                        </CardContent>
+                        <CardActions>
+                            <Button >Cancel</Button>
+                            <Button variant="raised" color="primary">OK</Button>
+                        </CardActions>
+                      </Card>
                         }
 
                         <ul>
                             {this.state.departmentList.map((row,index)=>{
-                                return <li key={index}>{row.department_name} {row.user_name}</li>;
+                                return <li key={index}>{row.department_name} {row.user_name}　<button onClick={e => this.clickHandler(e)} data-id="{row.user_name}">詳細を表示</button></li>;
                             })}
                         </ul>
                     </div>
